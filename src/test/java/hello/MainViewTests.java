@@ -3,8 +3,6 @@ package hello;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.annotation.PostConstruct;
-
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.server.VaadinRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +19,7 @@ import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = MainViewTests.Config.class, webEnvironment = SpringBootTest.WebEnvironment.NONE)
+@SpringBootTest(classes = MainViewTests.Config.class, properties = "spring.datasource.generate-unique-name=true")
 public class MainViewTests {
 
 	@Autowired CustomerRepository repository;
@@ -105,16 +103,5 @@ public class MainViewTests {
 	@EnableAutoConfiguration(exclude = com.vaadin.flow.spring.SpringBootAutoConfiguration.class)
 	static class Config {
 
-		@Autowired
-		CustomerRepository repository;
-
-		@PostConstruct
-		public void initializeData() {
-			this.repository.save(new Customer("Jack", "Bauer"));
-			this.repository.save(new Customer("Chloe", "O'Brian"));
-			this.repository.save(new Customer("Kim", "Bauer"));
-			this.repository.save(new Customer("David", "Palmer"));
-			this.repository.save(new Customer("Michelle", "Dessler"));
-		}
 	}
 }
